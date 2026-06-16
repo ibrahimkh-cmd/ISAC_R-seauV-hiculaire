@@ -1,0 +1,18 @@
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environnements virtuels
+venv/
+.venv/
+env/
+
+# Fichiers de configuration d'éditeurs (VS Code / PyCharm)
+.vscode/
+.idea/
+
+# Fichiers de logs ou gros fichiers de données lourds (ex: traces de simulation)
+*.log
+*.tmp
