@@ -12,26 +12,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Récupère tes fichiers (comme dans ton template)
-      - uses: actions/checkout@v4
+      # 1. Récupère le code du dépôt
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # 2. Installe Python sur le serveur GitHub
+      # 2. Installe Python (sans cache pour éviter l'erreur immédiate)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
 
-      # 3. Installe les bibliothèques indispensables à tes TPs
+      # 3. Installe toutes les dépendances requises par tes TPs
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy networkx matplotlib ipython jupyter nbconvert
+          pip install numpy networkx matplotlib ipython jupyter nbconvert ipykernel
 
-      # 4. Exécute tes notebooks pour vérifier qu'aucune cellule ne plante
+      # 4. Exécute les notebooks dans le dossier ISAC/ISAC
       - name: Run TP Notebooks
+        working-directory: ISAC/ISAC
+        env:
+          MPLBACKEND: Agg   # Empêche matplotlib de planter sur un serveur sans écran
         run: |
-          # Exécute le TP1 de A à Z en mode non-interactif
-          jupyter nbconvert --to notebook --execute TP1_corrige.ipynb --output test_output_tp1.ipynb
-          jupyter nbconvert --to notebook --execute TP2_corrige.ipynb --output test_output_tp2.ipynb
-          jupyter nbconvert --to notebook --execute TP3_corrige.ipynb --output test_output_tp3.ipynb
+          echo "Test du TP1..."
+          jupyter nbconvert --to notebook --execute TP1_corrige.ipynb --output test_tp1.ipynb
+          
+          echo "Test du TP2..."
+          jupyter nbconvert --to notebook --execute TP2_corrige.ipynb --output test_tp2.ipynb
+          
+          echo "Test du TP3..."
+          jupyter nbconvert --to notebook --execute TP3_corrige.ipynb --output test_tp3.ipynb
